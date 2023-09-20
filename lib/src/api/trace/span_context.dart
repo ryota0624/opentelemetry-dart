@@ -17,7 +17,7 @@ class SpanContext {
 
   int get traceFlags => _traceFlags;
 
-  api.TraceState get traceState => _traceState;
+  api.TraceState? get traceState => _traceState;
 
   bool get isValid => spanId.isValid && traceId.isValid;
 

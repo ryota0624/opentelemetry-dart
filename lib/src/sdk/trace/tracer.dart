@@ -19,23 +19,23 @@ class Tracer implements api.Tracer {
 
   Tracer(this._processors, this._resource, this._sampler, this._timeProvider,
       this._idGenerator, this._instrumentationLibrary,
-      {sdk.SpanLimits spanLimits})
+      {sdk.SpanLimits? spanLimits})
       : _spanLimits = spanLimits ?? sdk.SpanLimits();
 
   @override
   api.Span startSpan(String name,
-      {api.Context context,
-      api.SpanKind kind,
-      List<api.Attribute> attributes,
-      List<api.SpanLink> links,
-      Int64 startTime}) {
+      {api.Context? context,
+      api.SpanKind? kind,
+      List<api.Attribute>? attributes,
+      List<api.SpanLink>? links,
+      Int64? startTime}) {
     context ??= api.Context.current;
 
     // If a valid, active Span is present in the context, use it as this Span's
     // parent.  If the Context does not contain an active parent Span, create
     // a root Span with a new Trace ID and default state.
     // See https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md#determining-the-parent-span-from-a-context
-    final parent = context.span;
+    final parent = context.span as Span?;
     final spanId = api.SpanId.fromIdGenerator(_idGenerator);
     api.TraceId traceId;
     api.TraceState traceState;
@@ -44,7 +44,7 @@ class Tracer implements api.Tracer {
     if (parent != null) {
       parentSpanId = parent.spanContext.spanId;
       traceId = parent.spanContext.traceId;
-      traceState = parent.spanContext.traceState;
+      traceState = parent.spanContext.traceState ?? sdk.TraceState.empty();
     } else {
       parentSpanId = api.SpanId.root();
       traceId = api.TraceId.fromIdGenerator(_idGenerator);

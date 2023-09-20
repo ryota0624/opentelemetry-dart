@@ -38,19 +38,19 @@ class W3CTraceContextPropagator implements api.TextMapPropagator {
     final parentHeaderMatch =
         traceParentHeaderRegEx.firstMatch(traceParentHeader);
     final parentHeaderFields = Map<String, String>.fromIterable(
-        parentHeaderMatch.groupNames,
+        parentHeaderMatch?.groupNames ?? <String>[],
         key: (element) => element.toString(),
-        value: (element) => parentHeaderMatch.namedGroup(element));
+        value: (element) => parentHeaderMatch?.namedGroup(element) ?? '');
 
-    final traceId =
-        api.TraceId.fromString(parentHeaderFields[_traceIdFieldKey]) ??
-            api.TraceId.invalid();
-    final parentId =
-        api.SpanId.fromString(parentHeaderFields[_parentIdFieldKey]) ??
-            api.SpanId.invalid();
-    final traceFlags =
-        int.parse(parentHeaderFields[_traceFlagsFieldKey], radix: 16) ??
-            api.TraceFlags.none;
+    final traceId = parentHeaderFields.containsKey(_traceIdFieldKey)
+        ? api.TraceId.fromString(parentHeaderFields[_traceIdFieldKey]!)
+        : api.TraceId.invalid();
+    final parentId = parentHeaderFields.containsKey(_parentIdFieldKey)
+        ? api.SpanId.fromString(parentHeaderFields[_parentIdFieldKey]!)
+        : api.SpanId.invalid();
+    final traceFlags = parentHeaderFields.containsKey(parentHeaderFields)
+        ? int.parse(parentHeaderFields[_traceFlagsFieldKey]!, radix: 16)
+        : api.TraceFlags.none;
 
     final traceStateHeader = getter.get(carrier, _traceStateHeaderKey);
     final traceState = (traceStateHeader != null)
@@ -69,9 +69,9 @@ class W3CTraceContextPropagator implements api.TextMapPropagator {
       ..set(
           carrier,
           _traceParentHeaderKey,
-          '$_traceVersion-${spanContext.traceId.toString()}-'
-          '${spanContext.spanId.toString()}-'
-          '${spanContext.traceFlags.toRadixString(16).padLeft(2, '0')}')
-      ..set(carrier, _traceStateHeaderKey, spanContext.traceState.toString());
+          '$_traceVersion-${spanContext?.traceId.toString()}-'
+          '${spanContext?.spanId.toString()}-'
+          '${spanContext?.traceFlags.toRadixString(16).padLeft(2, '0')}')
+      ..set(carrier, _traceStateHeaderKey, spanContext?.traceState.toString() ?? '');
   }
 }

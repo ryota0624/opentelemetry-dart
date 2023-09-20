@@ -13,7 +13,7 @@ class Attributes {
   }
 
   /// Retrieve the value associated with the Attribute with key [key].
-  Object get(String key) => _attributes[key];
+  Object? get(String key) => _attributes[key];
 
   ///
   int get length => _attributes.length;

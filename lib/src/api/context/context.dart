@@ -80,7 +80,7 @@ class Context {
 
   /// Get the [api.SpanContext] from this [Context], or null if no such
   /// [api.SpanContext] exists.
-  api.SpanContext get spanContext => getValue(spanKey)?.spanContext;
+  api.SpanContext? get spanContext => getValue(spanKey)?.spanContext;
 }
 
 class ContextKey {

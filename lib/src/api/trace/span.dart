@@ -43,7 +43,7 @@ abstract class Span {
   Int64? get startTime;
 
   /// The parent span id.
-  api.SpanId get parentSpanId;
+  api.SpanId? get parentSpanId;
 
   /// The name of the span.
   String get name;
