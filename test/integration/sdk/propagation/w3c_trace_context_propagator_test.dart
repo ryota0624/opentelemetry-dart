@@ -18,7 +18,7 @@ class TestingInjector implements api.TextMapSetter<Map> {
 
 class TestingExtractor implements api.TextMapGetter<Map> {
   @override
-  String get(Map carrier, String key) {
+  String get(Map? carrier, String key) {
     return (carrier == null) ? null : carrier[key];
   }
 

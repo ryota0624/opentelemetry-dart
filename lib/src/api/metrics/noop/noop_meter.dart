@@ -8,7 +8,7 @@ import 'package:opentelemetry/src/experimental_api.dart';
 class NoopMeter implements Meter {
   @override
   Counter<T> createCounter<T extends num>(String name,
-      {String description, String unit}) {
+      {required String description, required String unit}) {
     return NoopCounter<T>();
   }
 }

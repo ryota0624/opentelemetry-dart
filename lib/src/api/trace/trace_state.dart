@@ -46,7 +46,7 @@ class TraceState {
   /// characters and the vendor id is limited to 13 characters. If in the
   /// multi-tenant vendor format, then the first character may additionally
   /// be numeric.
-  static bool _isValidKey(String key) {
+  static bool _isValidKey(String? key) {
     if (key == null || key.length > _KEY_MAX_SIZE || key.isEmpty) {
       return false;
     }
@@ -60,7 +60,7 @@ class TraceState {
   ///
   /// Value an is opaque string up to 256 characters printable ASCII RFC0020
   /// characters (i.e., the range 0x20 to 0x7E) except comma , and =.
-  static bool _isValidValue(String value) {
+  static bool _isValidValue(String? value) {
     if (value == null || value.length > _VALUE_MAX_SIZE || value.isEmpty) {
       return false;
     }
@@ -70,7 +70,7 @@ class TraceState {
     return (match != null) && (match.group(0) == value);
   }
 
-  String get(String key) => _state[key];
+  String? get(String key) => _state[key];
 
   /// Adds a key value pair to the TraceState.
   ///

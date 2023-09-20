@@ -74,7 +74,7 @@ class TraceState implements api.TraceState {
   }
 
   @override
-  String get(String key) => _state[key];
+  String? get(String key) => _state[key];
 
   /// Adds a key value pair to the TraceState.
   ///
